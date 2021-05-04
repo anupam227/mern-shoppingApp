@@ -7,16 +7,8 @@ const Items = require('../../models/item');
 // @routes GET api/items
 router.get('/', (req,res) => {
     Items.find()
-    .exec((err, items) => {
-        if(err){
-            return res.status(400).json({
-                error: "No Items Found"
-            })
-        }
-        res.json(items)
-    })
-    // .sort({ date: -1}) 
-    // .then(items => res.json(items));
+    .sort({ date: -1}) 
+    .then(items => res.json(items));
 });
 
 // @routes POST api/items

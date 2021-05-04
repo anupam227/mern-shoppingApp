@@ -3,7 +3,7 @@ import * as actions from './types';
 
 export const getItem = () => dispatch => {
     dispatch(setItemLoading());
-    axios.get('/api/items')
+    axios.get('http://localhost:5000/api/items')
     .then(res => 
         dispatch({
             type: actions.GET_ITEMS,
@@ -15,7 +15,7 @@ export const getItem = () => dispatch => {
 };
 
 export const addItem = item => dispatch => {
-    axios.post('/api/items', item)
+    axios.post('http://localhost:5000/api/items', item)
     .then(res => dispatch({
         type: actions.ADD_ITEM,
         payload: res.data
@@ -23,7 +23,7 @@ export const addItem = item => dispatch => {
 };
 
 export const deleteItem = id => dispatch => {
-    axios.delete(`/api/items/${id}`)
+    axios.delete(`http://localhost:5000/api/items/${id}`)
     .then(res => dispatch({
         type: actions.DELETE_ITEM,
         payload: id
