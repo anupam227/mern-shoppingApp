@@ -1,4 +1,3 @@
-import {v1 as uuid} from 'uuid'
 import * as actions from '../actions/types';
 
 

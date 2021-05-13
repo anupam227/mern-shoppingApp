@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const auth = require('../../middleware/auth')
 // item model
 const Items = require('../../models/item');
 
@@ -8,11 +8,17 @@ const Items = require('../../models/item');
 router.get('/', (req,res) => {
     Items.find()
     .sort({ date: -1}) 
-    .then(items => res.json(items));
+    .then(items => res.json(items))
+    .catch(err => {
+        res.status(401).json({
+            message: "Cannot get items",
+            error: err
+        })
+    })
 });
 
 // @routes POST api/items
-router.post('/', (req,res) => {
+router.post('/', auth, (req,res) => {
     const newItem = new Items({
         name: req.body.name
     })
@@ -20,17 +26,12 @@ router.post('/', (req,res) => {
     .then(item => {
         res.status(200).json(item)
     })
-    .catch(err => {
-        res.status(500).json({
-            message: "Cannot store item",
-            error: err
-        })
-    });
+    
 });
 
 
 // @routes DELETE api/items
-router.delete('/:id', (req,res) => {
+router.delete('/:id', auth, (req,res) => {
      Items.deleteOne({ _id: req.params.id }, (err, results) => {
          if(err){
              return res.status(400).json({success: false})
